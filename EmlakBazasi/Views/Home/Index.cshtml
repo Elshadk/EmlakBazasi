@@ -1,0 +1,161 @@
+﻿@model EmlakBazasi.Models.WebModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid" style="margin-top:100px">
+            <div class="card mb-4">
+                <div style="padding: 1.25rem;" class="row">
+                    <a class="btn btn-primary btn-block" href="/home/index/0" style=" width:150px; background-color:#006687; border-color:#005c7a">Tam siyahı</a>
+                    <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" style="background-color:#388f58" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Axtarış
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="/home/index/1">Aktivlər</a>
+                            <a class="dropdown-item" href="/home/index/2">Abonelər</a>
+                            <a class="dropdown-item" href="/home/index/3">Demo</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/home/index/4">Gecikənlər</a>
+                            <a class="dropdown-item" href="/home/index/5">Gecikənlər+24</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/home/index/7">Fərqləndirilənlər</a>
+                            <a class="dropdown-item" href="/home/index/8">Fərqləndirilməyənlər</a>
+                            <a class="dropdown-item" href="/home/index/6">Silinmişlər</a>
+                        </div>
+                    </div>
+                    <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" style="background-color:#388f58" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Əməliyyatlar
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">Qeydlər</a>
+                            <a class="dropdown-item" href="#">Ödənişlər</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Yeni istifadəçi əlavə et</a>
+                        </div>
+                    </div>
+                    <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" style="background-color:#388f58" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Digər
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">Fərqləndirilmələri ləğv et</a>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" href="login.html" style=" width:150px; background-color:#388f58; border-color:#388f58">Mənbə</a>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive" style="min-height:500px;">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:13px;">
+                            <thead>
+                                <tr style="background-color:#222; color:white">
+                                    <th>No</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Oxunma kodu</th>
+                                    <th>Növü</th>
+                                    <th>Şirkət adı</th>
+                                    <th>Əlaqəli şəxs</th>
+                                    <th>Başlama tarxi</th>
+                                    <th>Əlaqə nömrəsi</th>
+                                    <th>Son ödəniş</th>
+                                    <th>Xatırlatma</th>
+                                    <th>Oxunma statusu</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var user in Model.view_rem_user_list)
+                                {
+                                    <tr>
+                                        <td>@user.id_user</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>@user.user</td>
+                                        <td>@user.user_type_name</td>
+                                        <td>@user.office_name</td>
+                                        <td>@user.full_name</td>
+                                        <td>@user.start_date</td>
+                                        <td>@user.phone_number</td>
+                                        <td>@user.payment_date</td>
+                                        <td>@user.reminder_note</td>
+                                        <td>@user.subscriber_tag</td>
+                                        <td>@user.is_active</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#31b0d5" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Bildiriş
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="#">Yeni versiya ilə əlaqəli mesaj</a>
+                                                        <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli mesaj</a>
+                                                        <a class="dropdown-item" href="#">Ödəniş ilə əlaqəli mesaj</a>
+
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli SMS</a>
+                                                        <a class="dropdown-item" href="#">
+                                                            Ödəniş ilə əlaqəli SMS
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#E99002" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Status
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="deactiveUser(@user.id_user)">Deaktiv et</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="blockUser(@user.id_user)">Məhdudlaşdır</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="activateUser(@user.id_user)">Aktivləşdir</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Abonent et</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="deleteUser(@user.id_user)">Sil</a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Ödəniş
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="#">Ödəniş əlavə et</a>
+                                                        <a class="dropdown-item" href="#">Ödəniş tarixçəsi</a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Digər
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="#">Qeyd əlavə et</a>
+                                                        <a class="dropdown-item" href="#">Qeydlərə bax</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Fərqləndir</a>
+                                                        <a class="dropdown-item" href="#"> - ləğv et</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Xatırlatma əlavə et</a>
+                                                        <a class="dropdown-item" href="#"> - ləğv et</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
