@@ -1,0 +1,99 @@
+﻿<!-- The Modal -->
+<div class="modal" id="addUserModal">
+    <div class="modal-dialog" style="min-width:900px;">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">İstifadəçi əlavə edilməsi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="frmAddUser">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="small mb-1" for="user_forAddUser">User</label>
+                                <input class="form-control py-4" id="user_forAddUser" name="user" type="number" >
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="full_name">Ad</label>
+                                <input class="form-control py-4" id="full_name" name="full_name" type="text" placeholder="Tam adı daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="office_name">Şirkət adı</label>
+                                <input class="form-control py-4" id="office_name" name="office_name" type="text" placeholder="Şirkət adını daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="referance">Referans</label>
+                                <input class="form-control py-4" id="reference" name="reference" type="text" placeholder="Referans daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="service_price">Xidmət haqqı</label>
+                                <input class="form-control py-4" id="service_price" name="service_price" type="number" placeholder="Xidmət haqqını daxil edin">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="small mb-1" for="phone_number">Telefon nömrəsi</label>
+                                <input class="form-control py-4" id="phone_number" name="phone_number" type="text" placeholder="Telefon nömrəsini daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="phone_number_ex">Köhnə telefon nömrəsi</label>
+                                <input class="form-control py-4" id="phone_number_ex" name="phone_number_ex" type="text" placeholder="Telefon nömrəsini daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="email_address">Email adresi</label>
+                                <input class="form-control py-4" id="email_address" name="email_address" type="text" placeholder="Email adresini daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="start_date">Başlama tarix</label>
+                                <input class="form-control py-4" id="start_date" name="start_date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="last_request_date">Son müraciət tarix</label>
+                                <input class="form-control py-4" id="last_request_date" name="last_request_date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="small mb-1" for="fk_id_rem_user_type">İstifadəçinin tipi</label>
+                                <select class="custom-select" style="min-height:50px;" name="fk_id_rem_user_type" id="fk_id_rem_user_type_forAddUser">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="fk_id_message_type">Mesajın tipi</label>
+                                <select class="custom-select" style="min-height:50px;" name="fk_id_message_type" id="fk_id_message_type_forAddUser">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="version">Versiya</label>
+                                <input class="form-control py-4" id="version" name="version" type="text" placeholder="Versiyanı daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="believe">İnam</label>
+                                <input class="form-control py-4" id="believe" name="believe" type="number" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="reading_data_count">Oxunma sayı</label>
+                                <input class="form-control py-4" id="reading_data_count" name="reading_data_count" type="number" placeholder="Oxunma sayını daxil edin">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="note">Qeyd</label>
+                        <input class="form-control py-4" id="note" type="text" name="note" placeholder="Qeyd daxil edin">
+                    </div>
+
+                </div>
+            </form>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addUser()">Əlavə et</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Bağla</button>
+            </div>
+
+        </div>
+    </div>
+</div>

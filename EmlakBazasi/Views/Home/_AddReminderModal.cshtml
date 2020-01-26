@@ -1,0 +1,34 @@
+﻿<!-- The Modal -->
+<div class="modal" id="addReminderModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Xatırlatmanın əlavə edilməsi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <input id="userIdForAddReminderID" name="fk_id_rem_user" value="" hidden />
+
+                <div class="form-group">
+                    <label class="small mb-1" for="date">Tarix</label>
+                    <input class="form-control py-4" id="dateForAddReminder" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                </div>
+                <div class="form-group">
+                    <label class="small mb-1" for="note">Qeyd</label>
+                    <textarea rows="3" class="form-control py-4" id="noteForAddReminder" type="text"> </textarea>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addReminder()">Əlavə et</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Bağla</button>
+            </div>
+
+        </div>
+    </div>
+</div>
