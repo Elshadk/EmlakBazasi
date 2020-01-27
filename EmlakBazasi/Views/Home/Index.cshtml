@@ -90,76 +90,80 @@
                                         <td>@user.full_name</td>
                                         <td>@(user.start_date != null ? Convert.ToDateTime(user.start_date).ToString("yyyy-MM-dd") : DateTime.MinValue.ToString("yyyy-MM-dd"))</td>
                                         <td>@user.phone_number</td>
-                                        <td>@(user.payment_date!=null ? Convert.ToDateTime(user.payment_date).ToString("yyyy-MM-dd") : DateTime.MinValue.ToString("yyyy-MM-dd"))</td>
+                                        <td>@(user.payment_date != null ? Convert.ToDateTime(user.payment_date).ToString("yyyy-MM-dd") : DateTime.MinValue.ToString("yyyy-MM-dd"))</td>
                                         <td class="@(user.reminder_date!=null ? DateTime.Now>=user.reminder_date ? "bgcolor04" : "" : "")" title="@user.reminder_note">@Convert.ToDateTime(user.reminder_date).ToString("yyyy-MM-dd")</td>
-                                        <td style="min-width:120px;">@(user.last_request_date!=null ? Convert.ToDateTime(user.last_request_date).ToString("yyyy-MM-dd hh:mm:ss"): DateTime.MinValue.ToString("yyyy-MM-dd hh:mm:ss"))
+                                        <td style="min-width:120px;">
+                                            @(user.last_request_date != null ? Convert.ToDateTime(user.last_request_date).ToString("yyyy-MM-dd hh:mm:ss") : DateTime.MinValue.ToString("yyyy-MM-dd hh:mm:ss"))
                                         <br />
                                         (@(Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(user.last_request_date)).TotalHours))) - saat
                                         <br />
-                                        versiya : @(user.version), elan : @(user.last_request_result) 
-                                        </td>
-                                        <td>@(last_request_period<=2 ? status + ", Yaxşı" : last_request_period<=12 ? status + ", Normal" : (last_request_period>=12 && last_request_period<=24) ? status +", Gecikmə" : (last_request_period>24 && last_request_period<=36) ? status +", Gecikmə +24" : last_request_period>36 ? status +", Gecikmə +36" : status)</td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="dropdown show">
-                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#31b0d5" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Bildiriş
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="#">Yeni versiya ilə əlaqəli mesaj</a>
-                                                        <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli mesaj</a>
-                                                        <a class="dropdown-item" href="#">Ödəniş ilə əlaqəli mesaj</a>
+                                        versiya : @(user.version), elan : @(user.last_request_result)
+                                    </td>
+                                    <td>@(last_request_period <= 2 ? status + ", Yaxşı" : last_request_period <= 12 ? status + ", Normal" : (last_request_period >= 12 && last_request_period <= 24) ? status + ", Gecikmə" : (last_request_period > 24 && last_request_period <= 36) ? status + ", Gecikmə +24" : last_request_period > 36 ? status + ", Gecikmə +36" : status)</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="dropdown show">
+                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#31b0d5" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Bildiriş
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="#">Yeni versiya ilə əlaqəli mesaj</a>
+                                                    <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli mesaj</a>
+                                                    <a class="dropdown-item" href="#">Ödəniş ilə əlaqəli mesaj</a>
 
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli SMS</a>
-                                                        <a class="dropdown-item" href="#">
-                                                            Ödəniş ilə əlaqəli SMS
-                                                        </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli SMS</a>
+                                                    <a class="dropdown-item" href="#">
+                                                        Ödəniş ilə əlaqəli SMS
+                                                    </a>
 
-                                                    </div>
-                                                </div>
-                                                <div class="dropdown show">
-                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#E99002" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Status
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="deactiveUser(@user.id_user)">Deaktiv et</a>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="blockUser(@user.id_user)">Məhdudlaşdır</a>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="activateUser(@user.id_user)">Aktivləşdir</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Abonent et</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="deleteUser(@user.id_user)">Sil</a>
-                                                    </div>
-                                                </div>
-                                                <div class="dropdown show">
-                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Ödəniş
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addPaymentModal" onclick="getUserIdForAddPayment(@user.id_user)">Ödəniş əlavə et</a>
-                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#paymentListModal" onclick="showPayment(@user.id_user)">Ödəniş tarixçəsi</a>
-                                                    </div>
-                                                </div>
-                                                <div class="dropdown show">
-                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Digər
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addNoteModal" onclick="getUserIdForAddNote(@user.id_user)">Qeyd əlavə et</a>
-                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#showNotesModal" onclick="showNote(@user.id_user)">Qeydlərə bax</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="changeTag(@user.id_user)">Fərqləndir</a>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="clearTag(@user.id_user)"> - ləğv et</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addReminderModal" onclick="getUserIdForAddReminder(@user.id_user)">Xatırlatma əlavə et</a>
-                                                        <a class="dropdown-item" href="javascript:void()" onclick="deleteReminder(@user.id_user)"> - ləğv et</a>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                }
+                                            <div class="dropdown show">
+                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#E99002" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Status
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="deactiveUser(@user.id_user)">Deaktiv et</a>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="blockUser(@user.id_user)">Məhdudlaşdır</a>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="activateUser(@user.id_user)">Aktivləşdir</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Abonent et</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="deleteUser(@user.id_user)">Sil</a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown show">
+                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Ödəniş
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addPaymentModal" onclick="getUserIdForAddPayment(@user.id_user)">Ödəniş əlavə et</a>
+                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#paymentListModal" onclick="showPayment(@user.id_user)">Ödəniş tarixçəsi</a>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown show">
+                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Digər
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addNoteModal" onclick="getUserIdForAddNote(@user.id_user)">Qeyd əlavə et</a>
+                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#showNotesModal" onclick="showNote(@user.id_user)">Qeydlərə bax</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="changeTag(@user.id_user)">Fərqləndir</a>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="clearTag(@user.id_user)"> - ləğv et</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addReminderModal" onclick="getUserIdForAddReminder(@user.id_user)">Xatırlatma əlavə et</a>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="deleteReminder(@user.id_user)"> - ləğv et</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#updateUserModal" onclick="getUserInfoForUpdateUser(@user.id_user)">Redaktə et</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -179,3 +183,4 @@
 @Html.Partial("_ShowNoteModal")
 @Html.Partial("_AddReminderModal")
 @Html.Partial("_AddUserModal")
+@Html.Partial("_UpdateUserModal")

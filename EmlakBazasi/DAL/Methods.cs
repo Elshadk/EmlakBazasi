@@ -781,5 +781,126 @@ namespace EmlakBazasi.DAL
             }
         }
 
+        public Rem_user getUserInfoForUpdateUser(int id_user)
+        {
+            try
+            {
+                string sql = @"SELECT id_rem_user, [user], office_name, full_name, reference, MAC, service_price, phone_number,
+                                  phone_number_ex, email_address, start_date, reading_data_count, fk_id_rem_user_type, believe, 
+                                  fk_id_message_type, last_IP, last_request_date, last_request_result, version, note
+                              FROM rem_user WHERE id_rem_user=@id_user";
+
+                SqlCommand cmd = new SqlCommand(sql, sqlConnection);
+                cmd.Parameters.AddWithValue("@id_user", id_user);
+
+                sqlConnection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                Rem_user u = new Rem_user();
+                while (reader.Read())
+                {
+                    u.id_rem_user = SafeGetInt(reader, 0); 
+                    u.user = SafeGetInt(reader, 1);
+                    u.office_name = SafeGetString(reader, 2);
+                    u.full_name = SafeGetString(reader, 3);
+                    u.reference = SafeGetString(reader, 4);
+                    u.MAC = SafeGetString(reader, 5);
+                    u.service_price = SafeGetInt(reader,6);
+                    u.phone_number = SafeGetString(reader, 7);
+                    u.phone_number_ex = SafeGetString(reader, 8);
+                    u.email_address = SafeGetString(reader, 9);
+                    u.start_date = SafeGetDate(reader, 10);
+                    u.reading_data_count = SafeGetInt(reader, 11);
+                    u.fk_id_rem_user_type = SafeGetInt(reader, 12);
+                    u.believe = SafeGetInt(reader, 13);
+                    u.fk_id_message_type = SafeGetInt(reader, 14);
+                    u.last_IP = SafeGetString(reader, 15);
+                    u.last_request_date = SafeGetDate(reader, 16);
+                    u.last_request_result = SafeGetInt(reader,17);
+                    u.version = SafeGetString(reader, 18);
+                    u.note = SafeGetString(reader, 19);
+                }
+                sqlConnection.Close();
+                return u;
+            }
+            catch (Exception ex)
+            {
+                sqlConnection.Close();
+                throw ex;
+            }
+        }
+
+        public bool updateUser(Rem_user item)
+        {
+            try
+            {
+                List<Rem_user_note> lu = new List<Rem_user_note>();
+                string sql = @"UPDATE  rem_user SET
+                                 [user]=@user, office_name=@office_name, full_name=@full_name, reference=@reference, MAC=@MAC, service_price=@service_price, phone_number=@phone_number,
+                                  phone_number_ex=@phone_number_ex, email_address=@email_address, start_date=@start_date, reading_data_count=@reading_data_count, fk_id_rem_user_type=@fk_id_rem_user_type, 
+                                  believe=@believe, is_active=@is_active, fk_id_message_type=@fk_id_message_type, last_IP=@last_IP, last_request_date=@last_request_date, last_request_result=@last_request_result,
+                                  version=@version, note=@note, subscriber_tag=@subscriber_tag, tag=@tag, is_deleted=@is_deleted 
+                               WHERE id_rem_user=@id_rem_user";
+
+                SqlCommand cmd = new SqlCommand(sql, sqlConnection);
+
+                cmd.Parameters.AddWithValue("@user", item.user);
+                cmd.Parameters.AddWithValue("@office_name", item.office_name);
+                cmd.Parameters.AddWithValue("@full_name", item.full_name);
+                cmd.Parameters.AddWithValue("@reference", item.reference);
+                cmd.Parameters.AddWithValue("@MAC", item.MAC);
+                cmd.Parameters.AddWithValue("@service_price", item.service_price);
+                cmd.Parameters.AddWithValue("@phone_number", item.phone_number);
+                cmd.Parameters.AddWithValue("@phone_number_ex", item.phone_number_ex);
+                cmd.Parameters.AddWithValue("@email_address", item.email_address);
+                cmd.Parameters.AddWithValue("@start_date", item.start_date);
+                cmd.Parameters.AddWithValue("@reading_data_count", item.reading_data_count);
+                cmd.Parameters.AddWithValue("@fk_id_rem_user_type", item.fk_id_rem_user_type);
+                cmd.Parameters.AddWithValue("@believe", item.believe);
+                cmd.Parameters.AddWithValue("@is_active", item.is_active);
+                cmd.Parameters.AddWithValue("@fk_id_message_type", item.fk_id_message_type);
+                cmd.Parameters.AddWithValue("@last_IP", item.last_IP);
+                cmd.Parameters.AddWithValue("@last_request_date", item.last_request_date);
+                cmd.Parameters.AddWithValue("@last_request_result", item.last_request_result);
+                cmd.Parameters.AddWithValue("@version", item.version);
+                cmd.Parameters.AddWithValue("@note", item.note);
+                cmd.Parameters.AddWithValue("@subscriber_tag", item.subscriber_tag);
+                cmd.Parameters.AddWithValue("@tag", item.tag);
+                cmd.Parameters.AddWithValue("@is_deleted", item.is_deleted);
+                cmd.Parameters.AddWithValue("@id_rem_user", item.id_rem_user);
+
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                sqlConnection.Close();
+                return false;
+            }
+        }
+
+        public  string SafeGetString( SqlDataReader reader, int colIndex)
+        {
+            if (!reader.IsDBNull(colIndex))
+                return reader.GetString(colIndex);
+            return string.Empty;
+        }
+
+        public  DateTime SafeGetDate( SqlDataReader reader, int colIndex)
+        {
+            if (!reader.IsDBNull(colIndex))
+                return reader.GetDateTime(colIndex);
+            return DateTime.MinValue;
+        }
+
+        public  int SafeGetInt( SqlDataReader reader, int colIndex)
+        {
+            if (!reader.IsDBNull(colIndex))
+                return reader.GetInt32(colIndex);
+            return 0;
+        }
     }
 }

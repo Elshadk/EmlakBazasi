@@ -386,6 +386,92 @@ function addUser() {
     });
 }
 
+
+function getUserInfoForUpdateUser(id) {
+    data = { "id_user": id };
+    $.ajax({
+        type: "POST",
+        url: "/home/getUserInfoForUpdateUser",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (result) {
+            if (result != null && result != "") {
+                $("#id_rem_user_forUpdate").val(result.id_rem_user);
+                $("#user_forUpdate").val(result.user);
+                $("#full_name_forUpdate").val(result.full_name);
+                $("#office_name_forUpdate").val(result.office_name);
+                $("#id_rem_user_forUpdate").val(result.id_rem_user);
+                $("#reference_forUpdate").val(result.reference);
+                $("#service_price_forUpdate").val(result.service_price);
+                $("#phone_number_forUpdate").val(result.phone_number);
+                $("#phone_number_ex_forUpdate").val(result.phone_number_ex);
+                $("#email_address_forUpdate").val(result.email_address);
+                $("#start_date_forUpdate").val(formatDate(result.start_date));
+                $("#reading_data_count_forUpdate").val(result.reading_data_count);
+                $("#believe_forUpdate").val(result.believe);
+                $("#last_request_date_forUpdate").val(formatDate(result.last_request_date));
+                $("#version_forUpdate").val(result.version);
+                $("#note_forUpdate").val(result.note);
+
+                getUserTypeAndMessageTypeForUpdateUser(result.fk_id_message_type, result.fk_id_rem_user_type);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+        },
+    });
+}
+
+function getUserTypeAndMessageTypeForUpdateUser(message_type_id, user_type_id) {
+    $.ajax({
+        type: "POST",
+        url: "/home/getUserTypeAndMessageTypeForUpdateUser",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (result) {
+            $("#fk_id_rem_user_type_forUpdateUser").empty();
+            $("#fk_id_message_type_forUpdateUser").empty();
+            for (i = 0; i < result.user_type_list.length; i++) {
+                if (result.user_type_list[i].id_rem_user_type == user_type_id) {
+                    $("#fk_id_rem_user_type_forUpdateUser").append("<option selected value='" + result.user_type_list[i].id_rem_user_type + "'>" + result.user_type_list[i].type_name + "</option>")
+                } else {
+                    $("#fk_id_rem_user_type_forUpdateUser").append("<option value='" + result.user_type_list[i].id_rem_user_type + "'>" + result.user_type_list[i].type_name + "</option>")
+                }
+            }
+
+            for (i = 0; i < result.message_list.length; i++) {
+                if (result.user_type_list[i].fk_id_message_type == message_type_id) {
+                    $("#fk_id_message_type_forUpdateUser").append("<option selected value='" + result.message_list[i].id_message_type + "'>" + result.message_list[i].message_code + "</option>")
+                } else {
+                    $("#fk_id_message_type_forUpdateUser").append("<option value='" + result.message_list[i].id_message_type + "'>" + result.message_list[i].message_code + "</option>")
+                }
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+        },
+    });
+}
+
+function updateUser() {
+    var data = getFormData($("#frmUpdateUser"));
+    $.ajax({
+        type: "POST",
+        url: "/home/updateUser",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (result) {
+            if (result) $("#successOperationModal").modal('show');
+            else alert(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+        },
+    });
+}
+
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};

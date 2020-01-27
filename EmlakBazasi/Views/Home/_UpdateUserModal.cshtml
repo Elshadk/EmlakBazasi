@@ -1,0 +1,109 @@
+﻿<!-- The Modal -->
+<div class="modal" id="updateUserModal">
+    <div class="modal-dialog" style="min-width:900px;">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">İstifadəçinin redaktə edilməsi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="frmUpdateUser">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" id="id_rem_user_forUpdate" style="display:none;" />
+                            <div class="form-group">
+                                <label class="small mb-1" for="user">User</label>
+                                <input class="form-control py-4" id="user_forUpdate" name="user" type="number" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="full_name">Ad</label>
+                                <input class="form-control py-4" id="full_name_forUpdate" name="full_name" type="text" placeholder="Tam adı daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="office_name">Şirkət adı</label>
+                                <input class="form-control py-4" id="office_name_forUpdate" name="office_name" type="text" placeholder="Şirkət adını daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="referance">Referans</label>
+                                <input class="form-control py-4" id="reference_forUpdate" name="reference" type="text" placeholder="Referans daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="service_price">Xidmət haqqı</label>
+                                <input class="form-control py-4" id="service_price_forUpdate" name="service_price" type="number" placeholder="Xidmət haqqını daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="materialUnchecked">
+                                    <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="small mb-1" for="phone_number">Telefon nömrəsi</label>
+                                <input class="form-control py-4" id="phone_number_forUpdate" name="phone_number" type="text" placeholder="Telefon nömrəsini daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="phone_number_ex">Köhnə telefon nömrəsi</label>
+                                <input class="form-control py-4" id="phone_number_ex_forUpdate" name="phone_number_ex" type="text" placeholder="Telefon nömrəsini daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="email_address">Email adresi</label>
+                                <input class="form-control py-4" id="email_address_forUpdate" name="email_address" type="text" placeholder="Email adresini daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="start_date">Başlama tarix</label>
+                                <input class="form-control py-4" id="start_date_forUpdate" name="start_date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="last_request_date">Son müraciət tarix</label>
+                                <input class="form-control py-4" id="last_request_date_forUpdate" name="last_request_date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="ww">
+                                    <label class="form-check-label" for="ww">Material ww</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="small mb-1" for="fk_id_rem_user_type">İstifadəçinin tipi</label>
+                                <select class="custom-select" style="min-height:50px;" name="fk_id_rem_user_type" id="fk_id_rem_user_type_forUpdateUser"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="fk_id_message_type">Mesajın tipi</label>
+                                <select class="custom-select" style="min-height:50px;" name="fk_id_message_type" id="fk_id_message_type_forUpdateUser"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="version">Versiya</label>
+                                <input class="form-control py-4" id="version_forUpdate" name="version" type="text" placeholder="Versiyanı daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="believe">İnam</label>
+                                <input class="form-control py-4" id="believe_forUpdate" name="believe" type="number" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="reading_data_count">Oxunma sayı</label>
+                                <input class="form-control py-4" id="reading_data_count_forUpdate" name="reading_data_count" type="number" placeholder="Oxunma sayını daxil edin">
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="note">Qeyd</label>
+                        <input class="form-control py-4" id="note_forUpdate" type="text" name="note" placeholder="Qeyd daxil edin">
+                    </div>
+
+                </div>
+            </form>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateUser()">Əlavə et</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Bağla</button>
+            </div>
+
+        </div>
+    </div>
+</div>
