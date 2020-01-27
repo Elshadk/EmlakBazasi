@@ -787,7 +787,7 @@ namespace EmlakBazasi.DAL
             {
                 string sql = @"SELECT id_rem_user, [user], office_name, full_name, reference, MAC, service_price, phone_number,
                                   phone_number_ex, email_address, start_date, reading_data_count, fk_id_rem_user_type, believe, 
-                                  fk_id_message_type, last_IP, last_request_date, last_request_result, version, note
+                                  fk_id_message_type, last_IP, last_request_date, last_request_result, version, note, tag, is_active, is_deleted, subscriber_tag
                               FROM rem_user WHERE id_rem_user=@id_user";
 
                 SqlCommand cmd = new SqlCommand(sql, sqlConnection);
@@ -819,6 +819,10 @@ namespace EmlakBazasi.DAL
                     u.last_request_result = SafeGetInt(reader,17);
                     u.version = SafeGetString(reader, 18);
                     u.note = SafeGetString(reader, 19);
+                    u.tag = SafeGetInt(reader, 20);
+                    u.is_active = SafeGetInt(reader, 21);
+                    u.is_deleted = SafeGetInt(reader, 22);
+                    u.subscriber_tag = SafeGetInt(reader, 23);
                 }
                 sqlConnection.Close();
                 return u;

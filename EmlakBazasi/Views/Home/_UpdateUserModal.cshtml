@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <input type="text" id="id_rem_user_forUpdate" style="display:none;" />
+                            <input type="text" id="id_rem_user_forUpdate" hidden />
                             <div class="form-group">
                                 <label class="small mb-1" for="user">User</label>
                                 <input class="form-control py-4" id="user_forUpdate" name="user" type="number" readonly>
@@ -36,8 +36,14 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="materialUnchecked">
-                                    <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
+                                    <input type="checkbox" class="form-check-input" id="is_active_forUpdate" name="is_active">
+                                    <label class="form-check-label" for="is_active_forUpdate">Aktiv</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="tag_forUpdate" name="tag">
+                                    <label class="form-check-label" for="tag_forUpdate">Tag</label>
                                 </div>
                             </div>
                         </div>
@@ -64,8 +70,14 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="ww">
-                                    <label class="form-check-label" for="ww">Material ww</label>
+                                    <input type="checkbox" class="form-check-input" id="is_deleted_forUpdate" name="is_deleted">
+                                    <label class="form-check-label" for="is_deleted_forUpdate">Silinib</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="subscriber_tag_forUpdate" name="subscriber_tag">
+                                    <label class="form-check-label" for="subscriber_tag_forUpdate">Abonent</label>
                                 </div>
                             </div>
                         </div>
@@ -83,18 +95,20 @@
                                 <input class="form-control py-4" id="version_forUpdate" name="version" type="text" placeholder="Versiyanı daxil edin">
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1" for="believe">İnam</label>
-                                <input class="form-control py-4" id="believe_forUpdate" name="believe" type="number" placeholder="">
-                            </div>
-                            <div class="form-group">
                                 <label class="small mb-1" for="reading_data_count">Oxunma sayı</label>
                                 <input class="form-control py-4" id="reading_data_count_forUpdate" name="reading_data_count" type="number" placeholder="Oxunma sayını daxil edin">
                             </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="note">Qeyd</label>
+                                <input class="form-control py-4" id="note_forUpdate" type="text" name="note" placeholder="Qeyd daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="believe_forUpdate" value="0" name="believe">
+                                    <label class="form-check-label" for="believe_forUpdate">İnam</label>
+                                </div>
+                            </div>
                         </div>
-                    <div class="form-group">
-                        <label class="small mb-1" for="note">Qeyd</label>
-                        <input class="form-control py-4" id="note_forUpdate" type="text" name="note" placeholder="Qeyd daxil edin">
-                    </div>
 
                 </div>
             </form>

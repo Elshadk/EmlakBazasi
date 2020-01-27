@@ -189,13 +189,15 @@ namespace EmlakBazasi.Controllers
         [HttpPost]
         public ActionResult updateUser(Rem_user item)
         {
-            //item.is_deleted = 0;
-            //item.is_active = 1;
-            //item.tag = 0;
-            //item.subscriber_tag = 0;
-            //item.MAC = "";
-            //item.last_IP = GetIPAddress();
-            //item.last_request_result = 0;
+            if (item.is_deleted == null) item.is_deleted=0;
+            if (item.is_active == null) item.is_active = 0;
+            if (item.subscriber_tag == null) item.subscriber_tag = 0;
+            if (item.tag == null) item.tag = 0;
+            if (item.believe == null) item.believe = 0;
+            item.MAC = "";
+            item.last_IP = "";
+            item.last_request_result = 0;
+
             bool result = methods.updateUser(item);
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -148,14 +148,18 @@ function deleteReminder(id) {
 
 function getUserIdForAddNote(userId) {
     $("#userIdForAddNoteID").val(userId);
+    $("#noteForAddNote").val("");
 }
 
 function getUserIdForAddReminder(userId) {
     $("#userIdForAddReminderID").val(userId);
+    $("#noteForAddReminder").val("");
 }
 
 function getUserIdForAddPayment(userId) {
     $("#userIdForAddPaymentID").val(userId);
+    $("#sumForAddPayment").val("");
+    $("#noteForAddPayment").val("");
 }
 
 function showNote(userId) {
@@ -352,12 +356,12 @@ function getInfoForAddUser() {
         success: function (result) {
 
             for (i = 0; i < result.user_type_list.length; i++) {
-                $("#fk_id_rem_user_type_forAddUser").append("<option value='" + result.user_type_list[i].id_rem_user_type + "'>" + result.user_type_list[i].type_name+"</option>")
+                $("#fk_id_rem_user_type_forAddUser").append("<option value='" + result.user_type_list[i].id_rem_user_type + "'>" + result.user_type_list[i].type_name + "</option>")
             }
 
             for (i = 0; i < result.message_list.length; i++) {
                 $("#fk_id_message_type_forAddUser").append("<option value='" + result.message_list[i].id_message_type + "'>" + result.message_list[i].message_code + "</option>")
-            }     
+            }
 
             $("#user_forAddUser").val(result.user);
 
@@ -409,10 +413,16 @@ function getUserInfoForUpdateUser(id) {
                 $("#email_address_forUpdate").val(result.email_address);
                 $("#start_date_forUpdate").val(formatDate(result.start_date));
                 $("#reading_data_count_forUpdate").val(result.reading_data_count);
-                $("#believe_forUpdate").val(result.believe);
                 $("#last_request_date_forUpdate").val(formatDate(result.last_request_date));
                 $("#version_forUpdate").val(result.version);
                 $("#note_forUpdate").val(result.note);
+
+                if (result.tag == 1) $("#tag_forUpdate").prop("checked", true);
+                if (result.is_active == 1) $("#is_active_forUpdate").prop("checked", true);
+                if (result.is_deleted == 1) $("#is_deleted_forUpdate").prop("checked", true);
+                if (result.believe == 1) $("#believe_forUpdate").prop("checked", true);
+                if (result.subscriber_tag == 1) $("#subscriber_tag_forUpdate").prop("checked", true);
+
 
                 getUserTypeAndMessageTypeForUpdateUser(result.fk_id_message_type, result.fk_id_rem_user_type);
             }
@@ -455,7 +465,14 @@ function getUserTypeAndMessageTypeForUpdateUser(message_type_id, user_type_id) {
 }
 
 function updateUser() {
+
+    $("#tag_forUpdate").is(':checked') ? $("#tag_forUpdate").val("1") : $("#tag_forUpdate").val(0);
+    $("#is_active_forUpdate").is(':checked') ? $("#is_active_forUpdate").val("1") : $("#is_active_forUpdate").val("0");
+    $("#is_deleted_forUpdate").is(':checked') ? $("#is_deleted_forUpdate").val("1") : $("#is_deleted_forUpdate").val("0");
+    $("#subscriber_tag_forUpdate").is(':checked') ? $("#subscriber_tag_forUpdate").val("1") : $("#subscriber_tag_forUpdate").val("0");
+    $("#believe_forUpdate").is(':checked') ? $("#believe_forUpdate").val("1") : $("#believe_forUpdate").val("0");
     var data = getFormData($("#frmUpdateUser"));
+    data = { ...data, "id_rem_user": $("#id_rem_user_forUpdate").val() };
     $.ajax({
         type: "POST",
         url: "/home/updateUser",
