@@ -28,5 +28,7 @@ namespace EmlakBazasi.Models
         public Nullable<System.DateTime> payment_date { get; set; }
         public Nullable<System.DateTime> reminder_date { get; set; }
         public string reminder_note { get; set; }
+
+        public Util utils { get; set; }
     }
 }

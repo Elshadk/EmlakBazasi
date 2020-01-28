@@ -282,7 +282,6 @@ function addPayment() {
         success: function (result) {
             if (result) {
                 $("#successOperationModal").modal('show');
-                setInterval(location.reload(), 2000);
             }
             else alert(result);
         },
@@ -348,6 +347,8 @@ function clearAllTags() {
 }
 
 function getInfoForAddUser() {
+    $('#frmAddUser').find("input[type=text], textarea, input[type=number]").val("");
+    $('#frmAddUser').find("input[type=checkbox]").prop("checked", false);
     $.ajax({
         type: "POST",
         url: "/home/getInfoForAddUser",
@@ -451,7 +452,7 @@ function getUserTypeAndMessageTypeForUpdateUser(message_type_id, user_type_id) {
             }
 
             for (i = 0; i < result.message_list.length; i++) {
-                if (result.user_type_list[i].fk_id_message_type == message_type_id) {
+                if (result.message_list[i].id_message_type == message_type_id) {
                     $("#fk_id_message_type_forUpdateUser").append("<option selected value='" + result.message_list[i].id_message_type + "'>" + result.message_list[i].message_code + "</option>")
                 } else {
                     $("#fk_id_message_type_forUpdateUser").append("<option value='" + result.message_list[i].id_message_type + "'>" + result.message_list[i].message_code + "</option>")
@@ -471,6 +472,8 @@ function updateUser() {
     $("#is_deleted_forUpdate").is(':checked') ? $("#is_deleted_forUpdate").val("1") : $("#is_deleted_forUpdate").val("0");
     $("#subscriber_tag_forUpdate").is(':checked') ? $("#subscriber_tag_forUpdate").val("1") : $("#subscriber_tag_forUpdate").val("0");
     $("#believe_forUpdate").is(':checked') ? $("#believe_forUpdate").val("1") : $("#believe_forUpdate").val("0");
+    $("#additional_client_forUpdate").is(':checked') ? $("#additional_client_forUpdate").val("1") : $("#additional_client_forUpdate").val("0");
+
     var data = getFormData($("#frmUpdateUser"));
     data = { ...data, "id_rem_user": $("#id_rem_user_forUpdate").val() };
     $.ajax({
@@ -480,7 +483,9 @@ function updateUser() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (result) {
-            if (result) $("#successOperationModal").modal('show');
+            if (result) {
+                $("#successOperationModal").modal('show');
+            }
             else alert(result);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -517,4 +522,8 @@ function formatDate(item) {
 
     return [year, month, day].join('-');
 }
+
+$('#successOperationModal').on('hidden.bs.modal', function () {
+    location.reload();
+})
 

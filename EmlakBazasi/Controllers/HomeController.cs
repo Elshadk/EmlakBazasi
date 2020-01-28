@@ -157,13 +157,7 @@ namespace EmlakBazasi.Controllers
         [HttpPost]
         public ActionResult addUser(Rem_user item)
         {
-            item.is_deleted = 0;
-            item.is_active = 1;
-            item.tag = 0;
-            item.subscriber_tag = 0;
-            item.MAC = "";
-            item.last_IP = GetIPAddress();
-            item.last_request_result = 0;
+            item = correctInputs(item);
             bool result = methods.addUser(item);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -189,15 +183,7 @@ namespace EmlakBazasi.Controllers
         [HttpPost]
         public ActionResult updateUser(Rem_user item)
         {
-            if (item.is_deleted == null) item.is_deleted=0;
-            if (item.is_active == null) item.is_active = 0;
-            if (item.subscriber_tag == null) item.subscriber_tag = 0;
-            if (item.tag == null) item.tag = 0;
-            if (item.believe == null) item.believe = 0;
-            item.MAC = "";
-            item.last_IP = "";
-            item.last_request_result = 0;
-
+            item = correctInputs(item);
             bool result = methods.updateUser(item);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -218,5 +204,20 @@ namespace EmlakBazasi.Controllers
             }
             return IPAddress;
         }
+
+        public Rem_user correctInputs(Rem_user item)
+        {
+            if (item.is_deleted == null) item.is_deleted = 0;
+            if (item.is_active == null) item.is_active = 0;
+            if (item.subscriber_tag == null) item.subscriber_tag = 0;
+            if (item.tag == null) item.tag = 0;
+            if (item.believe == null) item.believe = 0;
+            if (item.additional_client == null) item.additional_client = 0;
+            if (item.MAC == null) item.MAC = "";
+            if (item.last_IP == null) item.last_IP = "";
+            if (item.last_request_result == null) item.last_request_result = 0;
+            return item;
+        }
+
     }
 }

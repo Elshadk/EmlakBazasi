@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace EmlakBazasi.DAL
 {
@@ -13,13 +11,13 @@ namespace EmlakBazasi.DAL
         static SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PropertyDB"].ConnectionString);
         string Connectionstring = sqlConnection.ConnectionString;
 
-        //filter
+        //filter method
         public List<View_rem_user> filterUsers(int filter)
         {
             try
             {
                 List<View_rem_user> lu = new List<View_rem_user>();
-                string sql = @"SELECT * FROM VIEW_REM_USER t WHERE "+getCondition(filter);
+                string sql = @"SELECT * FROM VIEW_REM_USER t WHERE " + getCondition(filter);
 
                 SqlCommand cmd = new SqlCommand(sql, sqlConnection);
                 sqlConnection.Open();
@@ -28,28 +26,30 @@ namespace EmlakBazasi.DAL
                 {
                     View_rem_user u = new View_rem_user();
                     u.id_user = reader.GetInt32(0);
-                    u.fk_id_rem_user_type = reader.GetInt32(1);
-                    u.user_type_name = reader.GetString(2);
-                    u.user = reader.GetInt32(3);
-                    u.office_name = reader.GetString(4);
-                    u.full_name = reader.GetString(5);
-                    u.service_price = reader.GetInt32(6);
-                    u.phone_number = reader.GetString(7);
-                    u.phone_number_ex = reader.GetString(8);
-                    u.email_address = reader.GetString(9);
-                    u.start_date = reader.GetDateTime(10);
-                    u.is_active = reader.GetInt32(11);
-                    u.is_deleted = reader.GetInt32(12);
-                    u.tag = reader.GetInt32(13);
-                    u.subscriber_tag = reader.GetInt32(14);
-                    u.last_request_date = reader.IsDBNull(15) ? (DateTime?)null : reader.GetDateTime(15);
-                    u.version = reader.GetString(16);
-                    u.last_request_result = reader.GetInt32(17);
-                    u.payment_date = reader.IsDBNull(18) ? (DateTime?)null : reader.GetDateTime(18);
-                    u.reminder_date = reader.IsDBNull(19) ? (DateTime?)null : reader.GetDateTime(19);
-                    u.reminder_note = reader.IsDBNull(20) ? null : reader.GetString(20);
+                    u.fk_id_rem_user_type = SafeGetInt(reader, 1);
+                    u.user_type_name = SafeGetString(reader, 2);
+                    u.user = SafeGetInt(reader, 3);
+                    u.office_name = SafeGetString(reader, 4);
+                    u.full_name = SafeGetString(reader, 5);
+                    u.service_price = SafeGetInt(reader, 6);
+                    u.phone_number = SafeGetString(reader, 7);
+                    u.phone_number_ex = SafeGetString(reader, 8);
+                    u.email_address = SafeGetString(reader, 9);
+                    u.start_date = SafeGetDate(reader, 10);
+                    u.is_active = SafeGetInt(reader, 11);
+                    u.is_deleted = SafeGetInt(reader, 12);
+                    u.tag = SafeGetInt(reader, 13);
+                    u.subscriber_tag = SafeGetInt(reader, 14);
+                    u.last_request_date = SafeGetDate(reader, 15);
+                    u.version = SafeGetString(reader, 16);
+                    u.last_request_result = SafeGetInt(reader, 17);
+                    u.payment_date = SafeGetDate(reader, 18);
+                    u.reminder_date = SafeGetDate(reader, 19);
+                    u.reminder_note = SafeGetString(reader, 20);
+                    u.utils = utils(u);
 
                     lu.Add(u);
+
                 }
                 sqlConnection.Close();
                 return lu;
@@ -61,7 +61,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
-        //status
+        //status methods
         public string getCondition(int filter)
         {
             string condition = "";
@@ -93,7 +93,7 @@ namespace EmlakBazasi.DAL
                 p[0] = new SqlParameter();
                 p[0].ParameterName = "@id_user";
                 p[0].Value = id_user;
-              
+
                 cmd.Parameters.AddRange(p);
                 sqlConnection.Open();
                 cmd.ExecuteNonQuery();
@@ -216,7 +216,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
-        //operation
+        //note methods
         public List<Rem_user_note> allNoteList()
         {
             try
@@ -231,11 +231,11 @@ namespace EmlakBazasi.DAL
                 {
                     Rem_user_note u = new Rem_user_note();
                     u.fk_id_rem_user = reader.GetInt32(0);
-                    u.date = reader.GetDateTime(1);
-                    u.note_date = reader.GetDateTime(2);
-                    u.IP = reader.GetString(3);
-                    u.note = reader.GetString(4);
-                    u.is_deleted = reader.GetInt32(5);
+                    u.date = SafeGetDate(reader, 1);
+                    u.note_date = SafeGetDate(reader, 2);
+                    u.IP = SafeGetString(reader, 3);
+                    u.note = SafeGetString(reader, 4);
+                    u.is_deleted = SafeGetInt(reader, 5);
 
                     lu.Add(u);
                 }
@@ -293,6 +293,7 @@ namespace EmlakBazasi.DAL
                 return false;
             }
         }
+
         public List<Rem_user_note> showNote(int userId)
         {
             try
@@ -314,13 +315,13 @@ namespace EmlakBazasi.DAL
                 while (reader.Read())
                 {
                     Rem_user_note u = new Rem_user_note();
-                    u.id_rem_user_note= reader.GetInt32(0);
-                    u.fk_id_rem_user = reader.GetInt32(1);
-                    u.date = reader.GetDateTime(2);
-                    u.note_date = reader.GetDateTime(3);
-                    u.IP = reader.GetString(4);
-                    u.note = reader.GetString(5);
-                    u.is_deleted = reader.GetInt32(6);
+                    u.id_rem_user_note = reader.GetInt32(0);
+                    u.fk_id_rem_user = SafeGetInt(reader, 1);
+                    u.date = SafeGetDate(reader, 2);
+                    u.note_date = SafeGetDate(reader, 3);
+                    u.IP = SafeGetString(reader, 4);
+                    u.note = SafeGetString(reader, 5);
+                    u.is_deleted = SafeGetInt(reader, 6);
 
                     lu.Add(u);
                 }
@@ -352,11 +353,11 @@ namespace EmlakBazasi.DAL
                 {
                     All_user_note u = new All_user_note();
                     u.id_rem_user_note = reader.GetInt32(0);
-                    u.note_date = reader.GetDateTime(1);
-                    u.note = reader.GetString(2);
-                    u.full_name = reader.GetString(3);
-                    u.office_name = reader.GetString(4);
-                    u.phone_number = reader.GetString(5);
+                    u.note_date = SafeGetDate(reader, 1);
+                    u.note = SafeGetString(reader, 2);
+                    u.full_name = SafeGetString(reader, 3);
+                    u.office_name = SafeGetString(reader, 4);
+                    u.phone_number = SafeGetString(reader, 5);
 
                     lu.Add(u);
                 }
@@ -370,7 +371,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
-
+        //reminder methods
         public bool addReminder(Rem_user_reminder item)
         {
             try
@@ -415,6 +416,7 @@ namespace EmlakBazasi.DAL
                 return false;
             }
         }
+
         public bool deleteReminder(int id_user)
         {
             try
@@ -442,7 +444,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
-
+        //payment methoda
         public bool addPayment(Rem_user_payment item)
         {
             try
@@ -489,6 +491,7 @@ namespace EmlakBazasi.DAL
                 return false;
             }
         }
+
         public List<Rem_user_payment> showPayment(int userId)
         {
             try
@@ -511,13 +514,13 @@ namespace EmlakBazasi.DAL
                 {
                     Rem_user_payment u = new Rem_user_payment();
                     u.id_user_payment = reader.GetInt32(0);
-                    u.fk_id_rem_user = reader.GetInt32(1);
-                    u.date = reader.GetDateTime(2);
-                    u.payment_date = reader.GetDateTime(3);
-                    u.sum = reader.GetInt32(4);
-                    u.note = reader.GetString(5);
-                    u.IP = reader.GetString(6);
-                    u.id_deleted = reader.GetInt32(7);
+                    u.fk_id_rem_user = SafeGetInt(reader, 1);
+                    u.date = SafeGetDate(reader, 2);
+                    u.payment_date = SafeGetDate(reader, 3);
+                    u.sum = SafeGetInt(reader, 4);
+                    u.note = SafeGetString(reader, 5);
+                    u.IP = SafeGetString(reader, 6);
+                    u.id_deleted = SafeGetInt(reader, 7);
 
                     lu.Add(u);
                 }
@@ -530,6 +533,7 @@ namespace EmlakBazasi.DAL
                 throw ex;
             }
         }
+
         public List<All_user_payment> showAllPayment()
         {
             try
@@ -548,12 +552,12 @@ namespace EmlakBazasi.DAL
                 {
                     All_user_payment u = new All_user_payment();
                     u.id_user_payment = reader.GetInt32(0);
-                    u.payment_date = reader.GetDateTime(1);
+                    u.payment_date = SafeGetDate(reader, 1);
                     u.sum = reader.GetInt32(2);
-                    u.note = reader.GetString(3);
-                    u.full_name = reader.GetString(4);
-                    u.office_name = reader.GetString(5);
-                    u.phone_number = reader.GetString(6);
+                    u.note = SafeGetString(reader, 3);
+                    u.full_name = SafeGetString(reader, 4);
+                    u.office_name = SafeGetString(reader, 5);
+                    u.phone_number = SafeGetString(reader, 6);
 
                     lu.Add(u);
                 }
@@ -567,6 +571,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
+        //tags methods
         public bool changeTag(int id_user)
         {
             try
@@ -639,7 +644,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
-
+        //message and user type list methods
         public List<Rem_user_type> getAllUserType()
         {
             try
@@ -655,8 +660,8 @@ namespace EmlakBazasi.DAL
                 {
                     Rem_user_type u = new Rem_user_type();
                     u.id_rem_user_type = reader.GetInt32(0);
-                    u.type_name = reader.GetString(1);
-                    u.status = reader.GetInt32(2);
+                    u.type_name = SafeGetString(reader, 1);
+                    u.status = SafeGetInt(reader, 2);
 
                     lu.Add(u);
                 }
@@ -685,8 +690,8 @@ namespace EmlakBazasi.DAL
                 {
                     Message_type u = new Message_type();
                     u.id_message_type = reader.GetInt32(0);
-                    u.message_code = reader.GetString(1);
-                    u.message_description = reader.GetString(2);
+                    u.message_code = SafeGetString(reader, 1);
+                    u.message_description = SafeGetString(reader, 2);
 
                     lu.Add(u);
                 }
@@ -700,6 +705,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
+        //add user methods
         public int getUserForAddUser()
         {
             Random rand = new Random();
@@ -715,7 +721,7 @@ namespace EmlakBazasi.DAL
 
                 while (reader.Read())
                 {
-                    user = reader.GetInt32(0)+rand.Next(100);
+                    user = reader.GetInt32(0) + rand.Next(100);
                 }
                 sqlConnection.Close();
                 return user;
@@ -736,11 +742,11 @@ namespace EmlakBazasi.DAL
                                  ([user], office_name, full_name, reference, MAC, service_price, phone_number,
                                   phone_number_ex, email_address, start_date, reading_data_count, fk_id_rem_user_type, believe, 
                                   is_active, fk_id_message_type, last_IP, last_request_date, last_request_result, version, note, 
-                                  subscriber_tag, tag, is_deleted) 
+                                  subscriber_tag, tag, is_deleted, additional_client) 
                                VALUES (@user, @office_name, @full_name, @reference, @MAC, @service_price, @phone_number,
                                   @phone_number_ex, @email_address, @start_date, @reading_data_count, @fk_id_rem_user_type, @believe, 
                                   @is_active, @fk_id_message_type, @last_IP, @last_request_date, @last_request_result, @version, @note, 
-                                  @subscriber_tag, @tag, @is_deleted)";
+                                  @subscriber_tag, @tag, @is_deleted, @additional_client)";
 
                 SqlCommand cmd = new SqlCommand(sql, sqlConnection);
 
@@ -767,6 +773,7 @@ namespace EmlakBazasi.DAL
                 cmd.Parameters.AddWithValue("@subscriber_tag", item.subscriber_tag);
                 cmd.Parameters.AddWithValue("@tag", item.tag);
                 cmd.Parameters.AddWithValue("@is_deleted", item.is_deleted);
+                cmd.Parameters.AddWithValue("@additional_client", item.additional_client);
 
                 sqlConnection.Open();
                 cmd.ExecuteNonQuery();
@@ -781,6 +788,7 @@ namespace EmlakBazasi.DAL
             }
         }
 
+        //update user methods
         public Rem_user getUserInfoForUpdateUser(int id_user)
         {
             try
@@ -799,24 +807,24 @@ namespace EmlakBazasi.DAL
                 Rem_user u = new Rem_user();
                 while (reader.Read())
                 {
-                    u.id_rem_user = SafeGetInt(reader, 0); 
+                    u.id_rem_user = reader.GetInt32(0);
                     u.user = SafeGetInt(reader, 1);
                     u.office_name = SafeGetString(reader, 2);
                     u.full_name = SafeGetString(reader, 3);
                     u.reference = SafeGetString(reader, 4);
                     u.MAC = SafeGetString(reader, 5);
-                    u.service_price = SafeGetInt(reader,6);
+                    u.service_price = SafeGetInt(reader, 6);
                     u.phone_number = SafeGetString(reader, 7);
                     u.phone_number_ex = SafeGetString(reader, 8);
                     u.email_address = SafeGetString(reader, 9);
                     u.start_date = SafeGetDate(reader, 10);
-                    u.reading_data_count = SafeGetInt(reader, 11);
+                    u.reading_data_count = reader.GetInt32(11);
                     u.fk_id_rem_user_type = SafeGetInt(reader, 12);
                     u.believe = SafeGetInt(reader, 13);
                     u.fk_id_message_type = SafeGetInt(reader, 14);
                     u.last_IP = SafeGetString(reader, 15);
                     u.last_request_date = SafeGetDate(reader, 16);
-                    u.last_request_result = SafeGetInt(reader,17);
+                    u.last_request_result = SafeGetInt(reader, 17);
                     u.version = SafeGetString(reader, 18);
                     u.note = SafeGetString(reader, 19);
                     u.tag = SafeGetInt(reader, 20);
@@ -843,7 +851,7 @@ namespace EmlakBazasi.DAL
                                  [user]=@user, office_name=@office_name, full_name=@full_name, reference=@reference, MAC=@MAC, service_price=@service_price, phone_number=@phone_number,
                                   phone_number_ex=@phone_number_ex, email_address=@email_address, start_date=@start_date, reading_data_count=@reading_data_count, fk_id_rem_user_type=@fk_id_rem_user_type, 
                                   believe=@believe, is_active=@is_active, fk_id_message_type=@fk_id_message_type, last_IP=@last_IP, last_request_date=@last_request_date, last_request_result=@last_request_result,
-                                  version=@version, note=@note, subscriber_tag=@subscriber_tag, tag=@tag, is_deleted=@is_deleted 
+                                  version=@version, note=@note, subscriber_tag=@subscriber_tag, tag=@tag, is_deleted=@is_deleted, additional_client=@additional_client 
                                WHERE id_rem_user=@id_rem_user";
 
                 SqlCommand cmd = new SqlCommand(sql, sqlConnection);
@@ -871,6 +879,7 @@ namespace EmlakBazasi.DAL
                 cmd.Parameters.AddWithValue("@subscriber_tag", item.subscriber_tag);
                 cmd.Parameters.AddWithValue("@tag", item.tag);
                 cmd.Parameters.AddWithValue("@is_deleted", item.is_deleted);
+                cmd.Parameters.AddWithValue("@additional_client", item.additional_client);
                 cmd.Parameters.AddWithValue("@id_rem_user", item.id_rem_user);
 
                 sqlConnection.Open();
@@ -886,25 +895,42 @@ namespace EmlakBazasi.DAL
             }
         }
 
-        public  string SafeGetString( SqlDataReader reader, int colIndex)
+
+        //helper methods
+        public string SafeGetString(SqlDataReader reader, int colIndex)
         {
             if (!reader.IsDBNull(colIndex))
                 return reader.GetString(colIndex);
             return string.Empty;
         }
 
-        public  DateTime SafeGetDate( SqlDataReader reader, int colIndex)
+        public DateTime SafeGetDate(SqlDataReader reader, int colIndex)
         {
             if (!reader.IsDBNull(colIndex))
                 return reader.GetDateTime(colIndex);
             return DateTime.MinValue;
         }
 
-        public  int SafeGetInt( SqlDataReader reader, int colIndex)
+        public int SafeGetInt(SqlDataReader reader, int colIndex)
         {
             if (!reader.IsDBNull(colIndex))
                 return reader.GetInt32(colIndex);
             return 0;
+        }
+
+        public Util utils(View_rem_user item)
+        {
+            Util u = new Util();
+            string s = item.is_active == 1 ? "Aktiv" : "Deaktiv";
+            u.last_request_period = Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(item.last_request_date)).TotalDays);
+            u.status = u.last_request_period <= 2 ? s + ", Yaxşı" : u.last_request_period <= 12 ? s + ", Normal" : (u.last_request_period >= 12 && u.last_request_period <= 24) ? s + ", Gecikmə" : (u.last_request_period > 24 && u.last_request_period <= 36) ? s + ", Gecikmə +24" : u.last_request_period > 36 ? s + ", Gecikmə +36" : s;
+            u.reminderColor = item.reminder_date != null && item.reminder_date!=DateTime.MinValue  ? DateTime.Now >= item.reminder_date ? "bgcolor04" : "" : "";
+            u.readingStatusLastDate = item.last_request_date != null ? Convert.ToDateTime(item.last_request_date).ToString("yyyy-MM-dd hh:mm:ss") : DateTime.MinValue.ToString("yyyy-MM-dd hh:mm:ss");
+            u.readingStatusHours = Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(item.last_request_date)).TotalHours);
+            u.readingStatusVersion=" versiya : " + item.version + ", elan: " + item.last_request_result;
+            u.subscriberColor = item.subscriber_tag == 1 ? "bgcolor03" : item.subscriber_tag == 2 ? "bgcolor05" : "";
+            u.tagColor = item.tag == 1 ? "bgcolor02" : "";
+            return u;
         }
     }
 }

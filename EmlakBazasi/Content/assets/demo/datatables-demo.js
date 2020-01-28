@@ -4,22 +4,32 @@ $(document).ready(function() {
 });
 
 $(document).ready(function () {
-    $('#tblAllNoteList').DataTable();
+    $('#tblAllNoteList').DataTable({
+        "lengthMenu": [[5,10, 25, 50, 100], [5,10, 25, 50, 100]]
+    });
 });
 
 $(document).ready(function () {
-    $('#tblNotesList').DataTable();
+    $('#tblNotesList').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]]
+    });
 });
 
 $(document).ready(function () {
-    $('#tblShowNotes').DataTable();
+    $('#tblShowNotes').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]]
+    });
 });
 
 
 $(document).ready(function () {
-    $('#tblAllPaymentList').DataTable();
+    $('#tblAllPaymentList').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]]
+    });
 });
 
 $(document).ready(function () {
-    $('#tblPaymentList').DataTable();
+    $('#tblPaymentList').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]]
+    });
 });

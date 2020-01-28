@@ -15,7 +15,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="small mb-1" for="user_forAddUser">User</label>
-                                <input class="form-control py-4" id="user_forAddUser" name="user" type="number" >
+                                <input class="form-control py-4" id="user_forAddUser" name="user" type="number" readonly>
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="full_name">Ad</label>
@@ -32,6 +32,18 @@
                             <div class="form-group">
                                 <label class="small mb-1" for="service_price">Xidmət haqqı</label>
                                 <input class="form-control py-4" id="service_price" name="service_price" type="number" placeholder="Xidmət haqqını daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="is_active" name="is_active">
+                                    <label class="form-check-label" for="is_active">Aktiv</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="tag" name="tag">
+                                    <label class="form-check-label" for="tag">Favorit</label>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
@@ -55,36 +67,55 @@
                                 <label class="small mb-1" for="last_request_date">Son müraciət tarix</label>
                                 <input class="form-control py-4" id="last_request_date" name="last_request_date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                             </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted">
+                                    <label class="form-check-label" for="is_deleted">Silinib</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="subscriber_tag" name="subscriber_tag">
+                                    <label class="form-check-label" for="subscriber_tag">Eksklüziv</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="small mb-1" for="fk_id_rem_user_type">İstifadəçinin tipi</label>
-                                <select class="custom-select" style="min-height:50px;" name="fk_id_rem_user_type" id="fk_id_rem_user_type_forAddUser">
-                                </select>
+                                <select class="custom-select" style="min-height:50px;" name="fk_id_rem_user_type" id="fk_id_rem_user_type_forAddUser"></select>
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="fk_id_message_type">Mesajın tipi</label>
-                                <select class="custom-select" style="min-height:50px;" name="fk_id_message_type" id="fk_id_message_type_forAddUser">
-                                </select>
+                                <select class="custom-select" style="min-height:50px;" name="fk_id_message_type" id="fk_id_message_type_forAddUser"></select>
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="version">Versiya</label>
                                 <input class="form-control py-4" id="version" name="version" type="text" placeholder="Versiyanı daxil edin">
                             </div>
                             <div class="form-group">
-                                <label class="small mb-1" for="believe">İnam</label>
-                                <input class="form-control py-4" id="believe" name="believe" type="number" placeholder="">
-                            </div>
-                            <div class="form-group">
                                 <label class="small mb-1" for="reading_data_count">Oxunma sayı</label>
                                 <input class="form-control py-4" id="reading_data_count" name="reading_data_count" type="number" placeholder="Oxunma sayını daxil edin">
                             </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="note">Qeyd</label>
+                                <input class="form-control py-4" id="note" type="text" name="note" placeholder="Qeyd daxil edin">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="believe" name="believe">
+                                    <label class="form-check-label" for="believe">İnam</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="additional_client" name="additional_client">
+                                    <label class="form-check-label" for="additional_client">Əlavə qurğu</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="small mb-1" for="note">Qeyd</label>
-                        <input class="form-control py-4" id="note" type="text" name="note" placeholder="Qeyd daxil edin">
-                    </div>
+
 
                 </div>
             </form>

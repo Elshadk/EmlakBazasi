@@ -145,6 +145,7 @@
     <Compile Include="Models\Rem_user_payment.cs" />
     <Compile Include="Models\Rem_user_reminder.cs" />
     <Compile Include="Models\Rem_user_type.cs" />
+    <Compile Include="Models\Util.cs" />
     <Compile Include="Models\View_rem_user.cs" />
     <Compile Include="Models\WebModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

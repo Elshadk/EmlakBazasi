@@ -15,7 +15,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="/home/index/1">Aktivlər</a>
-                            <a class="dropdown-item" href="/home/index/2">Abonelər</a>
+                            <a class="dropdown-item" href="/home/index/2">Favoritlər</a>
                             <a class="dropdown-item" href="/home/index/3">Demo</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/home/index/4">Gecikənlər</a>
@@ -77,13 +77,11 @@
                             <tbody>
                                 @foreach (var user in Model.view_rem_user_list)
                                 {
-                                    var last_request_period = Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(user.last_request_date)).TotalDays);
-                                    var status = user.is_active == 1 ? "Aktiv" : "Deaktiv";
 
                                     <tr style="background-color: @(user.fk_id_rem_user_type==0 ? "#e8e8e8" : "white")">
                                         <td>@user.id_user</td>
-                                        <td class="@(user.tag==1 ? "bgcolor02" : "")"></td>
-                                        <td class="@(user.subscriber_tag==1 ? "bgcolor03" : user.subscriber_tag==2 ? "bgcolor05" : "")"></td>
+                                        <td class="@user.utils.tagColor"></td>
+                                        <td class="@user.utils.subscriberColor"></td>
                                         <td>@user.user</td>
                                         <td>@user.user_type_name</td>
                                         <td>@user.office_name</td>
@@ -91,15 +89,15 @@
                                         <td>@(user.start_date != null ? Convert.ToDateTime(user.start_date).ToString("yyyy-MM-dd") : DateTime.MinValue.ToString("yyyy-MM-dd"))</td>
                                         <td>@user.phone_number</td>
                                         <td>@(user.payment_date != null ? Convert.ToDateTime(user.payment_date).ToString("yyyy-MM-dd") : DateTime.MinValue.ToString("yyyy-MM-dd"))</td>
-                                        <td class="@(user.reminder_date!=null ? DateTime.Now>=user.reminder_date ? "bgcolor04" : "" : "")" title="@user.reminder_note">@Convert.ToDateTime(user.reminder_date).ToString("yyyy-MM-dd")</td>
+                                        <td class="@user.utils.reminderColor" title="@user.reminder_note">@Convert.ToDateTime(user.reminder_date).ToString("yyyy-MM-dd")</td>
                                         <td style="min-width:120px;">
-                                            @(user.last_request_date != null ? Convert.ToDateTime(user.last_request_date).ToString("yyyy-MM-dd hh:mm:ss") : DateTime.MinValue.ToString("yyyy-MM-dd hh:mm:ss"))
-                                        <br />
-                                        (@(Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(user.last_request_date)).TotalHours))) - saat
-                                        <br />
-                                        versiya : @(user.version), elan : @(user.last_request_result)
-                                    </td>
-                                    <td>@(last_request_period <= 2 ? status + ", Yaxşı" : last_request_period <= 12 ? status + ", Normal" : (last_request_period >= 12 && last_request_period <= 24) ? status + ", Gecikmə" : (last_request_period > 24 && last_request_period <= 36) ? status + ", Gecikmə +24" : last_request_period > 36 ? status + ", Gecikmə +36" : status)</td>
+                                            @user.utils.readingStatusLastDate
+                                            <br />
+                                            (@user.utils.readingStatusHours) - saat
+                                            <br />
+                                            @user.utils.readingStatusVersion
+                                        </td>
+                                    <td>@user.utils.status</td>
                                     <td>
                                         <div class="row">
                                             <div class="dropdown show">
@@ -128,7 +126,7 @@
                                                     <a class="dropdown-item" href="javascript:void()" onclick="blockUser(@user.id_user)">Məhdudlaşdır</a>
                                                     <a class="dropdown-item" href="javascript:void()" onclick="activateUser(@user.id_user)">Aktivləşdir</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Abonent et</a>
+                                                    <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Favorit et</a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="javascript:void()" onclick="deleteUser(@user.id_user)">Sil</a>
                                                 </div>
