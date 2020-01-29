@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
 }
 
+
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid" style="margin-top:30px">
@@ -46,7 +47,7 @@
                         </div>
                     </div>
                     <div class="dropdown show">
-                        <a class="btn btn-primary btn-block" href="#" style=" width:150px; background-color:#388f58; border-color:#388f58">Mənbə</a>
+                        <a class="btn btn-primary btn-block" href="javascript:void()" data-toggle="modal" data-target="#sourcesStatisticsModal" onclick="getSourcesStatistics()" style="width:150px; background-color:#388f58; border-color:#388f58">Mənbə</a>
                     </div>
                     <a class="btn btn-danger btn-block" href="/login/logoutUser" style="width:100px;">Çıxış</a>
                 </div>
@@ -78,8 +79,8 @@
                                 @foreach (var user in Model.view_rem_user_list)
                                 {
 
-                                    <tr style="background-color: @(user.fk_id_rem_user_type==0 ? "#e8e8e8" : "white")">
-                                        <td>@user.id_user</td>
+                                    <tr style="background-color: @user.utils.trBgColor; font-style: @user.utils.trFontStyle; color: @user.utils.trTextColor ">
+                                        <td>@user.utils.rowGeneral [@user.utils.rowCount]</td>
                                         <td class="@user.utils.tagColor"></td>
                                         <td class="@user.utils.subscriberColor"></td>
                                         <td>@user.user</td>
@@ -97,71 +98,69 @@
                                             <br />
                                             @user.utils.readingStatusVersion
                                         </td>
-                                    <td>@user.utils.status</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="dropdown show">
-                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#31b0d5" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Bildiriş
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <a class="dropdown-item" href="#">Yeni versiya ilə əlaqəli mesaj</a>
-                                                    <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli mesaj</a>
-                                                    <a class="dropdown-item" href="#">Ödəniş ilə əlaqəli mesaj</a>
-
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Oxunma problemi ilə əlaqəli SMS</a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Ödəniş ilə əlaqəli SMS
+                                        <td>@user.utils.status</td>
+                                        <td style="font-style:normal !important; color:white !important">
+                                            <div class="row">
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#31b0d5" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Bildiriş
                                                     </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="sendSMS('@user.phone_number', 1)">Yeni versiya ilə əlaqəli mesaj</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="sendSMS('@user.phone_number', 2)">Oxunma problemi ilə əlaqəli mesaj</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="sendSMS('@user.phone_number', 3)">Ödəniş ilə əlaqəli mesaj</a>
 
-                                                </div>
-                                            </div>
-                                            <div class="dropdown show">
-                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#E99002" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Status
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="deactiveUser(@user.id_user)">Deaktiv et</a>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="blockUser(@user.id_user)">Məhdudlaşdır</a>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="activateUser(@user.id_user)">Aktivləşdir</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Favorit et</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="deleteUser(@user.id_user)">Sil</a>
-                                                </div>
-                                            </div>
-                                            <div class="dropdown show">
-                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Ödəniş
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addPaymentModal" onclick="getUserIdForAddPayment(@user.id_user)">Ödəniş əlavə et</a>
-                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#paymentListModal" onclick="showPayment(@user.id_user)">Ödəniş tarixçəsi</a>
-                                                </div>
-                                            </div>
-                                            <div class="dropdown show">
-                                                <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Digər
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addNoteModal" onclick="getUserIdForAddNote(@user.id_user)">Qeyd əlavə et</a>
-                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#showNotesModal" onclick="showNote(@user.id_user)">Qeydlərə bax</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="changeTag(@user.id_user)">Fərqləndir</a>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="clearTag(@user.id_user)"> - ləğv et</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addReminderModal" onclick="getUserIdForAddReminder(@user.id_user)">Xatırlatma əlavə et</a>
-                                                    <a class="dropdown-item" href="javascript:void()" onclick="deleteReminder(@user.id_user)"> - ləğv et</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#updateUserModal" onclick="getUserInfoForUpdateUser(@user.id_user)">Redaktə et</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="sendMessage('@user.id_user', '@user.phone_number','@Request.QueryString["password"]',2)">Oxunma problemi ilə əlaqəli SMS</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="sendMessage('@user.id_user', '@user.phone_number','@Request.QueryString["password"]',3)">Ödəniş ilə əlaqəli SMS</a>
 
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#E99002" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Status
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="deactiveUser(@user.id_user)">Deaktiv et</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="blockUser(@user.id_user)">Məhdudlaşdır</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="activateUser(@user.id_user)">Aktivləşdir</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="changeAsSubscriber(@user.id_user)">Favorit et</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="deleteUser(@user.id_user)">Sil</a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Ödəniş
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addPaymentModal" onclick="getUserIdForAddPayment(@user.id_user)">Ödəniş əlavə et</a>
+                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#paymentListModal" onclick="showPayment(@user.id_user)">Ödəniş tarixçəsi</a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" style="background-color:#358753" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Digər
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addNoteModal" onclick="getUserIdForAddNote(@user.id_user)">Qeyd əlavə et</a>
+                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#showNotesModal" onclick="showNote(@user.id_user)">Qeydlərə bax</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="changeTag(@user.id_user)">Fərqləndir</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="clearTag(@user.id_user)"> - ləğv et</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#addReminderModal" onclick="getUserIdForAddReminder(@user.id_user)">Xatırlatma əlavə et</a>
+                                                        <a class="dropdown-item" href="javascript:void()" onclick="deleteReminder(@user.id_user)"> - ləğv et</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void()" data-toggle="modal" data-target="#updateUserModal" onclick="getUserInfoForUpdateUser(@user.id_user)">Redaktə et</a>
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -171,6 +170,7 @@
     </main>
 </div>
 
+@Html.Partial("_SourcesStatisticsModal")
 @Html.Partial("_ClearTagsModal")
 @Html.Partial("_AddPaymentModal")
 @Html.Partial("_PaymentListModal")

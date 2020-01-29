@@ -11,7 +11,7 @@ namespace EmlakBazasi.Models
         public Nullable<int> fk_id_rem_user { get; set; }
         public Nullable<System.DateTime> date { get; set; }
         public Nullable<System.DateTime> payment_date { get; set; }
-        public Nullable<int> sum { get; set; }
+        public int sum { get; set; }
         public string note { get; set; }
         public string IP { get; set; }
         public Nullable<int> id_deleted { get; set; }

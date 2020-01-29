@@ -4,6 +4,12 @@ $(document).ready(function() {
 });
 
 $(document).ready(function () {
+    $('#tblSourcesStatistics').DataTable({
+        "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]]
+    });
+});
+
+$(document).ready(function () {
     $('#tblAllNoteList').DataTable({
         "lengthMenu": [[5,10, 25, 50, 100], [5,10, 25, 50, 100]]
     });

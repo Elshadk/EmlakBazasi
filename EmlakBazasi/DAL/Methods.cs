@@ -10,6 +10,8 @@ namespace EmlakBazasi.DAL
     {
         static SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PropertyDB"].ConnectionString);
         string Connectionstring = sqlConnection.ConnectionString;
+        int rowGroup = 0;
+        int rowCount = 0;
 
         //filter method
         public List<View_rem_user> filterUsers(int filter)
@@ -22,8 +24,14 @@ namespace EmlakBazasi.DAL
                 SqlCommand cmd = new SqlCommand(sql, sqlConnection);
                 sqlConnection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+                rowCount = 0;
+                rowGroup = 0;
+                int rowGeneral = 0;
                 while (reader.Read())
                 {
+                    rowCount++;
+                    rowGeneral++;
+
                     View_rem_user u = new View_rem_user();
                     u.id_user = reader.GetInt32(0);
                     u.fk_id_rem_user_type = SafeGetInt(reader, 1);
@@ -46,7 +54,7 @@ namespace EmlakBazasi.DAL
                     u.payment_date = SafeGetDate(reader, 18);
                     u.reminder_date = SafeGetDate(reader, 19);
                     u.reminder_note = SafeGetString(reader, 20);
-                    u.utils = utils(u);
+                    u.utils = utils(u, rowGeneral);
 
                     lu.Add(u);
 
@@ -213,6 +221,36 @@ namespace EmlakBazasi.DAL
                 sqlConnection.Close();
                 return false;
                 //throw ex;
+            }
+        }
+
+        public List<View_source_status> getSourcesStatistics()
+        {
+            try
+            {
+                List<View_source_status> lu = new List<View_source_status>();
+                string sql = @"SELECT * FROM View_source_status";
+
+                SqlCommand cmd = new SqlCommand(sql, sqlConnection);
+                sqlConnection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    View_source_status u = new View_source_status();
+                    u.id_source = reader.GetInt32(0);
+                    u.source_name = SafeGetString(reader, 1);
+                    u.last_reading_date = SafeGetDate(reader, 2);
+                    u.last_read_property_type = SafeGetString(reader, 3);
+
+                    lu.Add(u);
+                }
+                sqlConnection.Close();
+                return lu;
+            }
+            catch (Exception ex)
+            {
+                sqlConnection.Close();
+                throw ex;
             }
         }
 
@@ -918,16 +956,68 @@ namespace EmlakBazasi.DAL
             return 0;
         }
 
-        public Util utils(View_rem_user item)
+        public Util utils(View_rem_user item, int rowGeneral)
         {
             Util u = new Util();
-            string s = item.is_active == 1 ? "Aktiv" : "Deaktiv";
+            string s = "";
+            if (item.is_active == 1)
+            {
+                s = "Aktiv";
+                u.trFontStyle = "normal";
+            }
+            else
+            {
+                s = "Deaktiv";
+                u.trFontStyle = "italic";
+            };
+            u.trBgColor = item.fk_id_rem_user_type == 2 ? "#e8e8e8" : "white";
             u.last_request_period = Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(item.last_request_date)).TotalDays);
-            u.status = u.last_request_period <= 2 ? s + ", Yaxşı" : u.last_request_period <= 12 ? s + ", Normal" : (u.last_request_period >= 12 && u.last_request_period <= 24) ? s + ", Gecikmə" : (u.last_request_period > 24 && u.last_request_period <= 36) ? s + ", Gecikmə +24" : u.last_request_period > 36 ? s + ", Gecikmə +36" : s;
-            u.reminderColor = item.reminder_date != null && item.reminder_date!=DateTime.MinValue  ? DateTime.Now >= item.reminder_date ? "bgcolor04" : "" : "";
+            if (u.last_request_period <= 2)
+            {
+                u.status = s + ", Yaxşı";
+                u.trTextColor = "green";
+
+                rowCount = rowGroup != 1 ? 1 : rowCount;
+                rowGroup = 1;
+            }
+            else if (u.last_request_period <= 12)
+            {
+                u.status = s + ", Normal";
+                u.trTextColor = "black";
+
+                rowCount = rowGroup != 2 ? 1 : rowCount;
+                rowGroup = 2;
+            }
+            else if (u.last_request_period >= 12 && u.last_request_period <= 24)
+            {
+                u.status = s + ", Gecikmə";
+                u.trTextColor = "#CA6F1E";
+
+                rowCount = rowGroup != 3 ? 1 : rowCount;
+                rowGroup = 3;
+            }
+            else if (u.last_request_period > 24 && u.last_request_period <= 36)
+            {
+                u.status = s + ", Gecikmə +24";
+                u.trTextColor = "#C0392B";
+
+                rowCount = rowGroup != 4 ? 1 : rowCount;
+                rowGroup = 4;
+            }
+            else if (u.last_request_period > 36)
+            {
+                u.status = s + ", Gecikmə +36";
+                u.trTextColor = "#78281F";
+
+                rowCount = rowGroup != 5 ? 1 : rowCount;
+                rowGroup = 5;
+            }
+            u.rowCount = rowCount;
+            u.rowGeneral = rowGeneral;
+            u.reminderColor = item.reminder_date != null && item.reminder_date != DateTime.MinValue ? DateTime.Now >= item.reminder_date ? "bgcolor04" : "" : "";
             u.readingStatusLastDate = item.last_request_date != null ? Convert.ToDateTime(item.last_request_date).ToString("yyyy-MM-dd hh:mm:ss") : DateTime.MinValue.ToString("yyyy-MM-dd hh:mm:ss");
             u.readingStatusHours = Convert.ToInt32(DateTime.Now.Subtract(Convert.ToDateTime(item.last_request_date)).TotalHours);
-            u.readingStatusVersion=" versiya : " + item.version + ", elan: " + item.last_request_result;
+            u.readingStatusVersion = " versiya : " + item.version + ", elan: " + item.last_request_result;
             u.subscriberColor = item.subscriber_tag == 1 ? "bgcolor03" : item.subscriber_tag == 2 ? "bgcolor05" : "";
             u.tagColor = item.tag == 1 ? "bgcolor02" : "";
             return u;

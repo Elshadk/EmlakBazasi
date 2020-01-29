@@ -146,6 +146,30 @@ function deleteReminder(id) {
     });
 }
 
+function getSourcesStatistics() {
+    $.ajax({
+        type: "POST",
+        url: "/home/getSourcesStatistics",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (result) {
+            var t = $('#tblSourcesStatistics').DataTable();
+            t.clear();
+            for (i = 0; i < result.length; i++) {
+                t.row.add([
+                    result[i].id_source,
+                    result[i].source_name,
+                    formatDate(result[i].last_reading_date),
+                    result[i].last_read_property_type
+                ]).draw(false);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+        },
+    });
+}
+
 function getUserIdForAddNote(userId) {
     $("#userIdForAddNoteID").val(userId);
     $("#noteForAddNote").val("");
@@ -158,7 +182,7 @@ function getUserIdForAddReminder(userId) {
 
 function getUserIdForAddPayment(userId) {
     $("#userIdForAddPaymentID").val(userId);
-    $("#sumForAddPayment").val("");
+    $("#sumForAddPayment").val("0");
     $("#noteForAddPayment").val("");
 }
 
@@ -211,7 +235,6 @@ function showAllNote() {
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
         },
-
     });
 }
 
@@ -526,4 +549,31 @@ function formatDate(item) {
 $('#successOperationModal').on('hidden.bs.modal', function () {
     location.reload();
 })
+
+var msg01 = "Salam, Əmlak Bazası sisteminin yeni versiyası istifadəyə verilib. Zəhmət olmasa Team Vievver İD və şifər gödnərin, yeni versiyanı sizin komputerlərə yükləyək...";
+var msg02 = "Salam, İstifadə etdiyiniz sistemdə yeni elanları oxunması problem mövcuddur. Zəhmət olmasa Team Vievver İD və şifər gödnərin, problemi araşdıraq...";
+var msg03 = "Salam, Zəhmət olmasa Əmlak Bazası sisteminin aylıq ödənişlərini ödəyin...";
+function sendSMS(phone, type) {
+
+    var url = "";
+    phone = phone.substring(10, 1);
+    if (type == 1)
+        url = "https://api.whatsapp.com/send?phone=994" + phone + "&text=" + msg01 + "&source=&data=";
+    else if (type == 2)
+        url = "https://api.whatsapp.com/send?phone=994" + phone + "&text=" + msg02 + "&source=&data=";
+    else if (type == 3)
+        url = "https://api.whatsapp.com/send?phone=994" + phone + "&text=" + msg03 + "&source=&data=";
+
+    window.open(url, '_blank');
+}
+
+function sendMessage(user, msisdn, pass, type) {
+    var message = "";
+    if (type == 2)
+        message = msg02;
+    else if (type == 3)
+        message = msg03;
+    window.open("http://emlak-bazasi.com/admin/rem.php?password=" + pass + "&operation=sendsms&user=" + user + "&msisdn=" + msisdn + "&message=" + message, "_blank", "width=500, height=300");
+}
+
 

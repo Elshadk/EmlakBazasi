@@ -56,6 +56,14 @@ namespace EmlakBazasi.Controllers
         }
 
         [HttpPost]
+        public ActionResult getSourcesStatistics()
+        {
+            List<View_source_status> result = methods.getSourcesStatistics();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
         public ActionResult addNote(Rem_user_note item)
         {
             item.is_deleted = 0;

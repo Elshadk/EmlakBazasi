@@ -147,6 +147,7 @@
     <Compile Include="Models\Rem_user_type.cs" />
     <Compile Include="Models\Util.cs" />
     <Compile Include="Models\View_rem_user.cs" />
+    <Compile Include="Models\View_source_status.cs" />
     <Compile Include="Models\WebModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -198,6 +199,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Home\_AddUserModal.cshtml" />
     <Content Include="Views\Home\_UpdateUserModal.cshtml" />
+    <Content Include="Views\Home\_SourcesStatisticsModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

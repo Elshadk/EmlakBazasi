@@ -16,6 +16,12 @@ namespace EmlakBazasi.Models
 
         public string subscriberColor { get; set; }
         public string tagColor { get; set; }
+        public string trTextColor { get; set; }
+        public string trFontStyle { get; set; }
+        public string trBgColor { get; set; }
+        public int rowCount { get; set; }
+        public int rowGeneral { get; set; }
+
 
     }
 }
